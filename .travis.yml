@@ -5,6 +5,7 @@ env:
   global:
     - IMG_NAME=Raspbian-SSH
     - ENABLE_SSH=1
+    - STAGE_LIST="stage0 stage1 stage2"
 addons:
   apt:
     update: true
