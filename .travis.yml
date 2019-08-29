@@ -1,0 +1,25 @@
+if: tag IS present
+os: linux
+dist: bionic
+env:
+  global:
+    - IMG_NAME=Raspbian-SSH
+    - ENABLE_SSH=1
+addons:
+  apt:
+    update: true
+before_install:
+  - sudo apt-get install -y coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
+  - git clone https://github.com/RPi-Distro/pi-gen.git
+  - cd pi-gen
+  - git checkout $TRAVIS_TAG
+script:
+  - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+  - sudo ./build.sh
+  - kill %1
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  file_glob: true
+  file: "deploy/*.zip"
+  skip_cleanup: true
