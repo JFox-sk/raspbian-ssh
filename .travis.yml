@@ -24,3 +24,5 @@ deploy:
   file_glob: true
   file: "deploy/*.zip"
   skip_cleanup: true
+  on:
+    tags: true
